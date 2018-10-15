@@ -1,61 +1,69 @@
-= wilson
+# wilson64
 
-* http://rubyforge.org/projects/seattlerb
+http://rubyforge.org/projects/seattlerb
 
-== DESCRIPTION:
+## Description
 
-Wilson is a pure ruby x86 assembler. No, really. Worst Idea Evar.
+Wilson64 is a pure ruby x86-64 assembler. No, really. Worst Idea Evar.
+Forked from: https://github.com/seattlerb/wilson/
+
+Refactored by @ollpu to run on modern Ruby, x86-64 (Linux only).
 
 Why "wilson"? I wanted to name it "metal", but there is an existing
 project with that name... So I'm naming it after Wilson Bilkovich, who
 is about as metal as you can get (and it is easier to spell than
 "bilkovich", even tho that sounds more metal).
 
-== FEATURES/PROBLEMS:
+## Features / Problems
 
-* Generates x86 machine code directly. No dependencies. No system calls.
-* Registers ruby methods with #defasm, or run inline assembly with #asm.
+* Generates x86-64 machine code directly. No dependencies.
+* Registers ruby methods with #defasm, or run inline assembly with #asm, or Procs with #asm_proc.
+* Parameters and return values work according to the System V AMD64 calling convention.
 * Terrible, yet, awesome.
 
-== SYNOPSIS:
+## Synopsis
 
+```ruby
   class X
     defasm :superfast_meaning_of_life do
-      eax.mov 42
-      to_ruby eax # ruby fixnums = (n << 1) + 1
+      rax.mov 42
     end
 
     def inline_asm_example
       n = 1000
   
-      asm :count_to_n do
-        eax.xor eax
-        count = self.label
-        eax.inc
-        eax.cmp n
+      asm do
+        rax.xor rax
+        count = label
+        rax.inc
+        rax.cmp n
         jne count
-  
-        to_ruby eax
       end
     end
   end
   
   p X.new.superfast_meaning_of_life # => 42
   p X.new.inline_asm_example        # => 1000
+```
 
-== REQUIREMENTS:
+## All features
 
-* rubygems
+TODO
 
-== INSTALL:
+## Requirements
 
-* sudo gem install wilson
+x86-64 Linux & Ruby 2.2 or higher.
 
-== LICENSE:
+## Install
 
-(The MIT License)
+Not on rubygems yet.
+
+## License
+
+### The MIT License
 
 Copyright (c) 2008-2009 Ryan Davis, Seattle.rb
+Copyright (c) 2018 Roope Salmi
 
 Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the
