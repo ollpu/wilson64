@@ -1,7 +1,5 @@
 # wilson64
 
-http://rubyforge.org/projects/seattlerb
-
 ## Description
 
 Wilson64 is a pure ruby x86-64 assembler. No, really. Worst Idea Evar.
@@ -16,8 +14,8 @@ is about as metal as you can get (and it is easier to spell than
 
 ## Features / Problems
 
-* Generates x86-64 machine code directly. No dependencies.
-* Registers ruby methods with #defasm, or run inline assembly with #asm, or Procs with #asm_proc.
+* Generates and runs x86-64 machine code directly. No dependencies.
+* Registers ruby methods with `defasm`, run inline assembly with `asm`, or make Procs with `asm_proc`.
 * Parameters and return values work according to the System V AMD64 calling convention.
 * Terrible, yet, awesome.
 
@@ -63,6 +61,7 @@ Not on rubygems yet.
 ### The MIT License
 
 Copyright (c) 2008-2009 Ryan Davis, Seattle.rb
+
 Copyright (c) 2018 Roope Salmi
 
 Permission is hereby granted, free of charge, to any person obtaining
