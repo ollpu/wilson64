@@ -390,7 +390,7 @@ module Wilson
       self.specifier = nil
 
       self.parameters.delete_if do |par|
-        if par.is_a? String or par.is_a? Symbol
+        if par.is_a? String
           raise ArgumentError("multiple specifiers not allowed") if self.specifier
           self.specifier = par.to_s
           true
@@ -400,6 +400,12 @@ module Wilson
       self.parameters.map! do |par|
         if par.kind_of? Array
           Address.from_array par
+        else par end
+      end
+      
+      self.parameters.map! do |par|
+        if par.is_a? Symbol
+          self.machine.get_or_create_label par
         else par end
       end
 
@@ -659,13 +665,14 @@ module Wilson
 
   $wilson_method_missing = false
   class MachineCode
-    attr_accessor :stream, :procedure, :bits
+    attr_accessor :stream, :procedure, :bits, :labels
     attr_accessor :instructions_by_mnemonic
 
     def initialize
       self.procedure  = nil
       self.bits       = self.default_bits
       self.stream     = []
+      self.labels     = {}
 
       self.setup_machine
     end
@@ -686,12 +693,22 @@ module Wilson
       Instruction.new [msg, *args], self
     end
 
-    def label
-      Label.on_at(self, stream.size)
+    def label name
+      raise "Please use symbols for label names" unless name.is_a? Symbol
+      if labels.has_key? name
+        lbl = labels[name]
+        raise "Label already in use" if !labels[name].future_label?
+        lbl.plant
+      else
+        labels[name] = Label.on_at(self, stream.size)
+      end
     end
-
-    def flabel
-      FutureLabel.on self
+    
+    def get_or_create_label name
+      unless labels.has_key? name
+        labels[name] = FutureLabel.on(self)
+      end
+      labels[name]
     end
 
     def assemble instruction
@@ -994,7 +1011,7 @@ module Wilson
   ##
   # Address is a memory address in one of the following example forms:
   #
-  #     eax, ebx + ecx, eax + 5, 23545, edx + eax + 2312
+  #     [eax], [ebx, ecx], [eax, 5], [23545], [edx, eax*4, 2312]
 
   class Address < Operand
     attr_accessor :base, :index, :scale
@@ -1188,7 +1205,7 @@ module Wilson
       label.position = position
       label
     end
-
+    
     def bits
       distance = machine.stream.size - position
 
@@ -1400,6 +1417,11 @@ class Object
     assemble(*argtypes, &block).call(*args)
   end
   
+end
+
+if defined? $wilson_run_defaults
+  $machine = Wilson::MachineCodeX86.new
+  send $wilson_run_defaults
 end
 
 __END__
