@@ -1411,7 +1411,7 @@ class Object
       when String
         Fiddle::TYPE_VOIDP
       else
-        Fiddle::INTEGER
+        Fiddle::TYPE_LONG
       end
     end
     assemble(*argtypes, &block).call(*args)
