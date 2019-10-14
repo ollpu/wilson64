@@ -3,8 +3,8 @@
 ## Description
 
 Wilson64 is a pure ruby x86-64 assembler. No, really. Worst Idea Evar.
-Forked from: https://github.com/seattlerb/wilson/
 
+Forked from: https://github.com/seattlerb/wilson/
 Refactored by @ollpu to run on modern Ruby, x86-64 (Linux only).
 
 Why "wilson"? I wanted to name it "metal", but there is an existing
@@ -32,10 +32,10 @@ is about as metal as you can get (and it is easier to spell than
   
       asm do
         rax.xor rax
-        count = label
+        label :count
         rax.inc
         rax.cmp n
-        jne count
+        jne :count
       end
     end
   end
