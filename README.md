@@ -12,6 +12,16 @@ project with that name... So I'm naming it after Wilson Bilkovich, who
 is about as metal as you can get (and it is easier to spell than
 "bilkovich", even tho that sounds more metal).
 
+Why wilson64? I was on a search for coolest way of submitting code to a local programming contest.
+One idea I had was to somehow write assembly in Ruby, assemble and run it -- maybe by calling an external assembler.
+External assemblers turned out hard to call without creating files (which the system prohibits).
+There were a couple other projects but none of them had what wilson did: it was self-contained in one file.
+I need the whole thing to be in one file to submit it to the contest system. So I started trying to get wilson running.
+Turns out it only worked on antiquated Ruby and 32-bit platforms. I ended up rewriting most of it in one week of
+intense learning of x86 instruction encoding. And hey, I found a [bug](https://stackoverflow.com/questions/52522544/rbp-not-allowed-as-sib-base) in the original code too. The end result is a monstrosity I'm quite proud of.
+You can see my submissions to the contest for [2019](https://cses.fi/214/scores/) and [2020](https://cses.fi/314/scores/).
+— @ollpu
+
 ## Features / Problems
 
 * Generates and runs x86-64 machine code directly. No dependencies.
@@ -62,7 +72,7 @@ Not on rubygems yet.
 
 Copyright (c) 2008-2009 Ryan Davis, Seattle.rb
 
-Copyright (c) 2018 Roope Salmi
+Copyright (c) 2018-2019 Roope Salmi
 
 Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the
